@@ -11,6 +11,20 @@ const pool = mysql.createPool({
     password:""
 })
 
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "6579"
+});
+
+con.connect(err => {
+    if (err) throw err;
+});
+
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
 function getConnection(){
     return new Promise((resolve,reject)=>{
         pool.getConnection((err,conn)=>{
@@ -87,6 +101,88 @@ app.post("/loginUser",async function(req,res){
         // });
     }
 })
+
+//add User review
+app.post("/addUserReview", async function(req,res){
+    const review = req.body.review;
+    const anime_id = req.body.anime_id;
+    const email_user = req.body.email_user;
+    const api_key = req.body.api_key;
+
+    con.query(`select * from user where email_user=? and api_key =?`,[email_user,api_key],function(err,rows,fields){
+        if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add review"});
+        else{
+            con.query("select * from review",function(err,rows,fields){
+                if (error) {
+                    console.error(error);
+                } else {
+                    var review_id = rows.length;    
+                    con.query(`insert into review values(?,?,?,?,'0','1')`,[review_id,email_user,anime_id,review],function(err,rows,fields){
+                        if (error) {
+                            console.error(error);
+                        } else {
+                            res.status(200).send({status:200,message:"Status OK"});      
+                        }
+                    });  
+                }
+            });
+        }
+    });
+});
+
+//add Review Comment
+app.post("/addReviewComment",async function(req,res){
+    const review_id = req.body.review_id;
+    const email_user = req.body.email_user;
+    const api_key = req.body.api_key;
+
+    con.query(`select * from user where email_user=? and api_key =?`,[email_user,api_key],function(err,rows,fields){
+        if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add comments"});
+        else{
+            con.query(`insert into rcomment values(?,?,'1')`,[review_id,email_user],function(err,rows,fields){
+                if (error) {
+                    console.error(error);
+                } else {
+                    res.status(200).send({status:200,message:"Status OK"});      
+                }
+            });
+        }
+    });
+});
+
+//Edit User Review
+app.put("/editReview",async function(req,res){
+    const editreview = req.body.review;
+    const email_user = req.body.email_user;
+    const review_id  = req.body.review_id;
+    const api_key = req.body.api_key;
+
+    con.query(`select * from user where email_user=? and api_key =?`,[email_user,api_key],function(err,rows,fields){
+        if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can edit review"});
+        else{
+            con.query("update review set review = ? where review_id=?",[editreview,review_id],function(err,rows,fields){
+                if (error) {
+                    console.error(error);
+                } else {
+                    res.status(200).send({status:200,message:"Status OK"});      
+                }
+            });  
+        }
+    });
+});
+
+//Get User Review
+app.get("/getReview", async function(req,res){
+    const anime_id = req.body.anime_id;
+
+    con.query("select * from review where anime_id = ? and status = 1",[anime_id],function(err,rows,fields){
+        if(rows.length == 0){
+            return res.status(404).send({status:404,message:"No review found"});
+        } else{
+            return res.status(404).send(rows);
+        }
+    });
+});
 
 app.listen(3000,function(){
     console.log("Listening to port 3000");
