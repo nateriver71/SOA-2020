@@ -134,12 +134,13 @@ app.post("/addUserReview", async function(req,res){
 app.post("/addReviewComment",async function(req,res){
     const review_id = req.body.review_id;
     const email_user = req.body.email_user;
+    const comment = req.body.comment;
     const api_key = req.body.api_key;
 
     con.query(`select * from user where email_user=? and api_key =?`,[email_user,api_key],function(err,rows,fields){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add comments"});
         else{
-            con.query(`insert into rcomment values(?,?,'1')`,[review_id,email_user],function(err,rows,fields){
+            con.query(`insert into rcomment values(?,?,?,'1')`,[review_id,email_user,comment],function(err,rows,fields){
                 if (error) {
                     console.error(error);
                 } else {
