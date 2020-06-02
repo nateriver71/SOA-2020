@@ -1,5 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
+var request = require("request");
 const app = express();
 
 app.use(express.urlencoded({extended:true}));
@@ -183,6 +184,58 @@ app.get("/getReview", async function(req,res){
             return res.status(404).send(rows);
         }
     });
+});
+
+function getAnime(){
+    return new Promise(function(resolve,reject){
+        var rng = {
+            'method':'GET',
+            'url':'https://kitsu.io/api/edge/anime'
+        };
+        request(rng,function(error,response){
+            if(error){
+                reject(new Error(error));
+            }else{
+                resolve(response.body);
+            }
+        });
+    });
+}
+
+function getCategories(){
+    return new Promise(function(resolve,reject){
+        var rng = {
+            'method':'GET',
+            'url':'https://kitsu.io/api/edge/categories'
+        };
+        request(rng,function(error,response){
+            if(error){
+                reject(new Error(error));
+            }else{
+                resolve(response.body);
+            }
+        });
+    });
+}
+
+//getAnime
+app.get("/getAnime", async function(req,res){
+    try {
+        const rando = JSON.parse(await getAnime());
+        res.send(rando.data);
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+//getCategories
+app.get("/getCategories", async function(req,res){
+    try {
+        const rando = JSON.parse(await getCategories());
+        res.send(rando.data);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 app.listen(3000,function(){
