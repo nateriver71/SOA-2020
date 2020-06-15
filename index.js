@@ -57,7 +57,7 @@ app.post("/registerUser",async function(req,res){
     if(email_user==""||username_user==""||password_user==""){
         return res.status(500).send("Ada Field Kosong")
     }else{
-        let query = `insert into user values('${email_user}','${username_user}','${password_user}','${api_key}')`;
+        let query = `insert into user values('${email_user}','${username_user}','${password_user}','${api_key}',15)`;
         let conn = await getConnection();
         const regis = await executeQuery(conn,query);
         if(regis.length <= 0) return res.status(400).send("Email Kembar");
@@ -101,6 +101,20 @@ app.post("/loginUser",async function(req,res){
         //     }
         // });
     }
+})
+
+app.post("/topup", async function(req,res){
+    let key_user = req.body.key_user;
+    let query = `select * from user where api_key='${key_user}'`;
+    let conn = await getConnection();
+    const user = await executeQuery(conn,query);
+    if(user.length == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
+    let api_hit = user[0].api_hit + 10;
+    query = `update user set api_hit=${api_hit}`;
+    const apihit = await executeQuery(conn,query);
+    if(apihit.length == 0) return res.status(400).send({status:400,message:"Topup Gagal"});
+    return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
+
 })
 
 //add User review
@@ -237,6 +251,15 @@ app.get("/getCategories", async function(req,res){
         res.send(error);
     }
 });
+
+app.post("/deleteUser", async function(req,res){
+    let api_key = req.body.api_key;
+    let query = `delete from user where api_key = '${api_key}'`;
+    let conn = await getConnection();
+    const del = await executeQuery(conn,query);
+    if(del.length == 0) res.status(400).send({status:400,message:"gagal melakukan delete user"});
+    return res.status(200).send({status:200,message:"Berhasil melakukan delete user"});
+})
 
 app.listen(3000,function(){
     console.log("Listening to port 3000");
