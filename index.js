@@ -16,7 +16,7 @@ var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "6579"
+    database: "project_soa"
 });
 
 con.connect(err => {
@@ -35,7 +35,6 @@ function getConnection(){
                 resolve(conn);
             }
         });
-        console.log("getcon");
     });
     
 }
@@ -45,7 +44,6 @@ function executeQuery(conn, query){
             if(err){ reject(err);}
             else {resolve(result);}
         });
-        console.log("exec");
     });
 }
 
@@ -105,7 +103,7 @@ app.post("/loginUser",async function(req,res){
 
 app.post("/topup", async function(req,res){
     let key_user = req.body.key_user;
-    let query = `select * from user where api_key='${key_user}'`;
+    let query = `select * from user where key_user='${key_user}'`;
     let conn = await getConnection();
     const user = await executeQuery(conn,query);
     if(user.length == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
@@ -124,9 +122,10 @@ app.post("/addUserReview", async function(req,res){
     const email_user = req.body.email_user;
     const api_key = req.body.api_key;
 
-    con.query(`select * from user where email_user=? and api_key =?`,[email_user,api_key],function(err,rows,fields){
+    con.query(`select * from user where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add review"});
         else{
+            if(rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
             con.query("select * from review",function(err,rows,fields){
                 if (error) {
                     console.error(error);
@@ -152,9 +151,10 @@ app.post("/addReviewComment",async function(req,res){
     const comment = req.body.comment;
     const api_key = req.body.api_key;
 
-    con.query(`select * from user where email_user=? and api_key =?`,[email_user,api_key],function(err,rows,fields){
+    con.query(`select * from user where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add comments"});
         else{
+            if(rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
             con.query(`insert into rcomment values(?,?,?,'1')`,[review_id,email_user,comment],function(err,rows,fields){
                 if (error) {
                     console.error(error);
@@ -173,7 +173,7 @@ app.put("/editReview",async function(req,res){
     const review_id  = req.body.review_id;
     const api_key = req.body.api_key;
 
-    con.query(`select * from user where email_user=? and api_key =?`,[email_user,api_key],function(err,rows,fields){
+    con.query(`select * from user where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can edit review"});
         else{
             con.query("update review set review = ? where review_id=?",[editreview,review_id],function(err,rows,fields){
@@ -251,6 +251,28 @@ app.get("/getCategories", async function(req,res){
         res.send(error);
     }
 });
+
+app.post("/searchAnime", async function(req,res){
+    let nama = req.body.anime;
+    let email_user = req.body.email_user;
+    let api_key = req.body.api_key;
+
+
+    try {
+        const rando = JSON.parse(await getAnime());
+        var animelist = [];
+        for (var i=0;i<10;i++){
+            if(rando.data[i].attributes.canonicalTitle.includes(nama)){
+                animelist.push(rando.data[i].attributes.canonicalTitle);
+            }
+            
+        }
+        res.send(animelist);
+    } catch(error){
+        res.send(error);
+    }
+    
+})
 
 app.post("/deleteUser", async function(req,res){
     let api_key = req.body.api_key;
