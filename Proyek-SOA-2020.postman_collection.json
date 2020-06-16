@@ -4,6 +4,490 @@
 		"name": "Proyek-SOA-2020",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": [],
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email_user",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "username_user",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password_user",
+									"value": "",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/registerUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"registerUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email_user",
+									"value": "arizz@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password_user",
+									"value": "11",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/loginUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"loginUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUserReview",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "review",
+									"value": "cerita yang diberikan oleh pengarang benar benar memberikan kesan yang mencengkram membuat penonton terjun kedalamnya",
+									"type": "text"
+								},
+								{
+									"key": "anime_id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "email_user",
+									"value": "arizz@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "api_key",
+									"value": "718073079",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/addUserReview",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"addUserReview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUserComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "review_id",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "email_user",
+									"value": "arizzliantono@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "comment",
+									"value": "Bener bro merinding gitu",
+									"type": "text"
+								},
+								{
+									"key": "api_key",
+									"value": "232303387",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/addReviewComment",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"addReviewComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditUserReview",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "review",
+									"value": "di eps terakhir si pengarang bener bener maksa endingnya",
+									"type": "text"
+								},
+								{
+									"key": "email_user",
+									"value": "arizz@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "review_id",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "api_key",
+									"value": "718073079",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/editReview",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"editReview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUserReview",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email_user",
+									"value": "arizz@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password_user",
+									"value": "111",
+									"type": "text"
+								},
+								{
+									"key": "review_id",
+									"value": "0",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/deleteUserReview",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"deleteUserReview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUserComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email_user",
+									"value": "arizzliantono@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password_user",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "review_id",
+									"value": "0",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/deleteUserComment",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"deleteUserComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TopUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "key_user",
+									"value": "718073079",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/topup",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"topup"
+							],
+							"query": [
+								{
+									"key": "key_user",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAnime",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "anime",
+									"value": "Cowboy",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/searchAnime",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"searchAnime"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAnime",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/getAnime",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"getAnime"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/getCategories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"getCategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetReview",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b6c9e05-78ca-4526-817c-246ce7fee65b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "90da5f6e-07e2-44a6-9b08-66a53ea1c68a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "DeleteUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "api_key",
+									"value": "718073079",
+									"type": "text"
+								},
+								{
+									"key": "email_user",
+									"value": "arizz@gmail.com",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/deleteUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"deleteUser"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
 	"protocolProfileBehavior": {}
 }

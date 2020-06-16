@@ -299,12 +299,12 @@ app.post("/deleteUserReview", async function(req,res){
     let password_user = req.body.password_user;
     let review_id = req.body.review_id;
     let conn = await getConnection();
-    let query = `select * from user where email_user='${email_user}' and password_user='${password_user}'`;
+    let query = `select * from user where email_user = '${email_user}' and password_user = ${password_user}`;
     const login = await executeQuery(conn,query);
-    if(login.length == 0) return res.status(400).send({status:400,message:"Wrong email and password"});
-    query = `delete from review where review_id = '${review_id}' and email_user'${email_user}'`;
+    if(login.length <= 0) return res.status(400).send({status:400,message:"Wrong email and password"});
+    query = `delete from review where review_id = ${review_id} and email_user = '${email_user}'`;
     const del = await executeQuery(conn,query);
-    if(del.affectedrows == 0) res.status(400).send({status:400,message:"Delete review fail"});
+    if(del.affectedrows == 0) return res.status(400).send({status:400,message:"Delete review fail"});
     return res.status(200).send({status:200,message:"Success delete review"});
 })
 
