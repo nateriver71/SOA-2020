@@ -110,7 +110,7 @@ app.post("/topup", async function(req,res){
     let api_hit = user[0].api_hit + 10;
     query = `update user set api_hit=${api_hit}`;
     const apihit = await executeQuery(conn,query);
-    if(apihit.length == 0) return res.status(400).send({status:400,message:"Topup Gagal"});
+    if(apihit.affectedrows == 0) return res.status(400).send({status:400,message:"Topup Gagal"});
     return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
 
 })
@@ -126,14 +126,20 @@ app.post("/addUserReview", async function(req,res){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add review"});
         else{
             if(rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
+            let api_hit = rows[0].api_hit - 1;
+            con.query(`update user set api_hit=${api_hit}`,function(err,rows,fields){
+                if(err){
+                    console.error(err);
+                }
+            })
             con.query("select * from review",function(err,rows,fields){
-                if (error) {
-                    console.error(error);
+                if (err) {
+                    console.error(err);
                 } else {
                     var review_id = rows.length;    
                     con.query(`insert into review values(?,?,?,?,'0','1')`,[review_id,email_user,anime_id,review],function(err,rows,fields){
-                        if (error) {
-                            console.error(error);
+                        if (err) {
+                            console.error(err);
                         } else {
                             res.status(200).send({status:200,message:"Status OK"});      
                         }
@@ -155,9 +161,15 @@ app.post("/addReviewComment",async function(req,res){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add comments"});
         else{
             if(rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
+            let api_hit = rows[0].api_hit - 1;
+            con.query(`update user set api_hit=${api_hit}`,function(err,rows,fields){
+                if(err){
+                    console.error(err);
+                }
+            })
             con.query(`insert into rcomment values(?,?,?,'1')`,[review_id,email_user,comment],function(err,rows,fields){
-                if (error) {
-                    console.error(error);
+                if (err) {
+                    console.error(err);
                 } else {
                     res.status(200).send({status:200,message:"Status OK"});      
                 }
@@ -177,8 +189,8 @@ app.put("/editReview",async function(req,res){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can edit review"});
         else{
             con.query("update review set review = ? where review_id=?",[editreview,review_id],function(err,rows,fields){
-                if (error) {
-                    console.error(error);
+                if (err) {
+                    console.error(err);
                 } else {
                     res.status(200).send({status:200,message:"Status OK"});      
                 }
