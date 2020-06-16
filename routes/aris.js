@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
 var request = require("request");
-const router = express.Router();
 const app = express.Router();
 
 app.use(express.urlencoded({extended:true}));
