@@ -256,8 +256,6 @@ app.post("/searchAnime", async function(req,res){
     let nama = req.body.anime;
     let email_user = req.body.email_user;
     let api_key = req.body.api_key;
-
-
     try {
         const rando = JSON.parse(await getAnime());
         var animelist = [];
@@ -276,11 +274,40 @@ app.post("/searchAnime", async function(req,res){
 
 app.post("/deleteUser", async function(req,res){
     let api_key = req.body.api_key;
-    let query = `delete from user where api_key = '${api_key}'`;
+    let email_user = req.body.email_user;
+    let query = `delete from user where key_user = '${api_key}' and email_user = '${email_user}'`;
     let conn = await getConnection();
     const del = await executeQuery(conn,query);
-    if(del.length == 0) res.status(400).send({status:400,message:"gagal melakukan delete user"});
-    return res.status(200).send({status:200,message:"Berhasil melakukan delete user"});
+    if(del.affectedrows == 0) res.status(400).send({status:400,message:"Delete user fail"});
+    return res.status(200).send({status:200,message:"Success delete user"});
+})
+
+app.post("/deleteUserReview", async function(req,res){
+    let email_user = req.body.email_user;
+    let password_user = req.body.password_user;
+    let review_id = req.body.review_id;
+    let conn = await getConnection();
+    let query = `select * from user where email_user='${email_user}' and password_user='${password_user}'`;
+    const login = await executeQuery(conn,query);
+    if(login.length == 0) return res.status(400).send({status:400,message:"Wrong email and password"});
+    query = `delete from review where review_id = '${review_id}' and email_user'${email_user}'`;
+    const del = await executeQuery(conn,query);
+    if(del.affectedrows == 0) res.status(400).send({status:400,message:"Delete review fail"});
+    return res.status(200).send({status:200,message:"Success delete review"});
+})
+
+app.post("/deleteUserComment", async function(req,res){
+    let email_user = req.body.email_user;
+    let password_user = req.body.password_user;
+    let review_id = req.body.review_id;
+    let conn = await getConnection();
+    let query = `select * from user where email_user = '${email_user}' and password_user = ${password_user}`;
+    const login = await executeQuery(conn,query);
+    if(login.length <= 0) return res.status(400).send({status:400,message:"Wrong email and password"});
+    query = `delete from rcomment where review_id = ${review_id} and email_user = '${email_user}'`;
+    const del = await executeQuery(conn,query);
+    if(del.affectedrows == 0) return res.status(400).send({status:400,message:"Delete comment fail"});
+    return res.status(200).send({status:200,message:"Success delete comment"});
 })
 
 app.listen(3000,function(){
