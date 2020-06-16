@@ -1,5 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
+const midtransClient = require('midtrans-client');
 var request = require("request");
 const app = express.Router();
 
@@ -86,7 +87,7 @@ app.post("/loginUser",async function(req,res){
         // });
     }
 })
-
+/*
 app.post("/topup", async function(req,res){
     let key_user = req.body.key_user;
     let query = `select * from user where key_user='${key_user}'`;
@@ -100,7 +101,7 @@ app.post("/topup", async function(req,res){
     return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
 
 })
-
+*/
 app.post("/deleteUser", async function(req,res){
     let api_key = req.body.api_key;
     let email_user = req.body.email_user;

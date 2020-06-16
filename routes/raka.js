@@ -77,6 +77,63 @@ app.post("/addReviewComment",async function(req,res){
     });
 });
 
+//Topup
+app.post("/topup", async function(req,res){
+	let key_user = req.body.key_user;
+	con.query("select * from user where key_user= ?",[key_user],function(err,rows,fields){
+		if(user.length == 0) {
+			return res.status(400).send({
+				status:400,
+				message:"Email Atau Password Salah"
+			});
+		}else{
+			let snap = new midtransClient.Snap({
+				isProduction : false,
+				serverKey : 'SB-Mid-server-Jp5xMM57FoclHmWDItzXwXaV',
+				clientKey : 'SB-Mid-client-JUvzbHgzcPxluJEa'
+			});
+			let parameter = {
+				"transaction_details": {
+					"order_id": rows[0].email_user,
+					"gross_amount": 10000
+				}, "credit_card":{
+					"secure" : true
+				}
+			};
+			// create snap transaction token
+			snap.createTransactionToken(parameter).then((transactionToken)=>{
+			// pass transaction token to frontend
+				res.render('simple_checkout',{
+					token: transactionToken, 
+					clientKey: snap.apiConfig.clientKey,
+					user: rows[0].email_user
+				})
+			})
+		}
+	});
+})
+
+app.post("/success/:user", async function(req,res){
+	const user = req.params.user;
+	con.query("select * from user where email_user= ?",[user],function(err,rows,fields){
+		if(user.length == 0) {
+			return res.status(400).send({
+				status:400,
+				message:"Email Atau Password Salah"
+			});
+		}else{
+			let api_hit = rows[0].api_hit + 10;
+			con.query(`update user set api_hit=? where email_user=?`,[api_hit,user],function(err,rows,fields){
+				if(user.length == 0){
+					return res.status(400).send({status:400,message:"Topup Gagal"});
+				}else{
+					return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
+				}
+			});
+		}
+	});
+})
+
 //Edit User Review
 app.put("/editReview",async function(req,res){
     const editreview = req.body.review;
