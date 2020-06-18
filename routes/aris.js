@@ -38,8 +38,8 @@ app.post("/registerUser",async function(req,res){
     var username_user=req.body.username_user;
     var password_user=req.body.password_user;
     var api_key = Math.random().toString().slice(2,11);
-    if(email_user==""||username_user==""||password_user==""){
-        return res.status(500).send("Ada Field Kosong")
+    if(email_user==""||email_user==undefined||username_user==""||username_user==undefined||password_user==""){
+        return res.status(400).send("Ada Field Kosong")
     }else{
         let query = `insert into user values('${email_user}','${username_user}','${password_user}','${api_key}',15)`;
         let conn = await getConnection();
