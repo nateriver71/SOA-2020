@@ -38,7 +38,7 @@ app.post("/registerUser",async function(req,res){
         return res.send("Ada Field Kosong")
     }else{
         client.connect()
-        let query = `insert into users values('${email_user}','${username_user}','${password_user}','${api_key}',15)`;
+        let query = `insert into users values('${email_user}','${username_user}','${password_user}','${api_key}','',15)`;
         client.query(query, (err, result) => {
             if (err) {
                 return res.send("Email Kembar");
