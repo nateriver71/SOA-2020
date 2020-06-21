@@ -10,7 +10,9 @@ const con = new Client({
     host:"ec2-34-202-88-122.compute-1.amazonaws.com",
     database:"d5vc5jk8caet1t",
     user:"npvvwqlheuzuub",
-    password:"f3d3b5049fadc5cf04c59a30502399e2b28c3e2affb9533b129ec150fb6a165a"
+    password:"f3d3b5049fadc5cf04c59a30502399e2b28c3e2affb9533b129ec150fb6a165a",
+    port:"5432",
+    ssl: true
 })
 
 con.connect(err => {
