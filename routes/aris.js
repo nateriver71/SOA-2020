@@ -38,12 +38,13 @@ app.post("/registerUser",async function(req,res){
         return res.send("Ada Field Kosong")
     }else{
         client.connect()
-        let query = `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit) values('${email_user}','${username_user}','${password_user}','${api_key}','',15)`;
-        client.query(query, (err, result) => {
+        let query = `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit) values($1,$2,$3,$4,1,15)`;
+        let values = [email_user,username_user,password_user,api_key];
+        client.query(query,values, (err, result) => {
             if (err) {
                 return res.send("email Kembar");
             } else {
-                res.send({status:200,message:"Registrasi Berhasil"});
+                res.send({status:200 ,message:"Registrasi Berhasil"});
             }
           })
           client.end();
