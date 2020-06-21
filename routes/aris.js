@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const midtransClient = require('midtrans-client');
 var request = require("request");
+var path = require('path');
 const app = express.Router();
 
 app.use(express.urlencoded({extended:true}));
@@ -12,6 +13,18 @@ const pool = mysql.createPool({
     user:"root",
     password:""
 })
+
+const DIR = './uploads';
+let storage = multer.diskStorage({
+    destination: (req,file,callback) => {
+        callback(null,DIR);
+    },
+    filename: (req,file,cb) =>{
+        cb(null,file.fieldname + '-' + Date.now() + '-' + path.extname(file.originalname));
+    }
+});
+
+let uploads = multer({storage: storage});
 
 function getConnection(){
     return new Promise((resolve,reject)=>{
@@ -87,6 +100,20 @@ app.post("/loginUser",async function(req,res){
         // });
     }
 })
+
+app.post("/editImageProfile",uploads.single('gambar_profile'),async function(req,res){
+    let api_key = req.body.api_key;
+    let imageprofile = req.file.filename;
+    let query = `select * from user where key_user='${api_key}'`;
+    let conn = await getConnection();
+    const login = await executeQuery(conn,query);
+    if(login.length == 0) return res.status(400).send({status:400,message:"Wrong email or Pass"});
+    query = `update user set profil_picture='${imageprofile}'`;
+    const ganti = await executeQuery(conn,query);
+    if(ganti.affectedrows == 0) return res.status(400).send({status:400,message:"Couldn't change profile picture"});
+    return res.status(200).send({status:200,message:"Success change profile picture"});
+    
+});
 /*
 app.post("/topup", async function(req,res){
     let key_user = req.body.key_user;
