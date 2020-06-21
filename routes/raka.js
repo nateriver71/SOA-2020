@@ -26,12 +26,12 @@ app.post("/addUserReview", async function(req,res){
     const email_user = req.body.email_user;
     const api_key = req.body.api_key;
 
-    con.query(`select * from user where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
+    con.query(`select * from users where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add review"});
         else{
             if(rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
             let api_hit = rows[0].api_hit - 1;
-            con.query(`update user set api_hit=${api_hit}`,function(err,rows,fields){
+            con.query(`update users set api_hit=${api_hit}`,function(err,rows,fields){
                 if(err){
                     console.error(err);
                 }
@@ -61,12 +61,12 @@ app.post("/addReviewComment",async function(req,res){
     const comment = req.body.comment;
     const api_key = req.body.api_key;
 
-    con.query(`select * from user where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
+    con.query(`select * from users where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add comments"});
         else{
             if(rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
             let api_hit = rows[0].api_hit - 1;
-            con.query(`update user set api_hit=${api_hit}`,function(err,rows,fields){
+            con.query(`update users set api_hit=${api_hit}`,function(err,rows,fields){
                 if(err){
                     console.error(err);
                 }
@@ -85,7 +85,7 @@ app.post("/addReviewComment",async function(req,res){
 //Topup
 app.post("/topup", async function(req,res){
 	let key_user = req.body.key_user;
-	con.query("select * from user where key_user= ?",[key_user],function(err,rows,fields){
+	con.query("select * from users where key_user= ?",[key_user],function(err,rows,fields){
 		if(user.length == 0) {
 			return res.status(400).send({
 				status:400,
@@ -120,7 +120,7 @@ app.post("/topup", async function(req,res){
 
 app.post("/success/:user", async function(req,res){
 	const user = req.params.user;
-	con.query("select * from user where email_user= ?",[user],function(err,rows,fields){
+	con.query("select * from users where email_user= ?",[user],function(err,rows,fields){
 		if(user.length == 0) {
 			return res.status(400).send({
 				status:400,
@@ -128,7 +128,7 @@ app.post("/success/:user", async function(req,res){
 			});
 		}else{
 			let api_hit = rows[0].api_hit + 10;
-			con.query(`update user set api_hit=? where email_user=?`,[api_hit,user],function(err,rows,fields){
+			con.query(`update users set api_hit=? where email_user=?`,[api_hit,user],function(err,rows,fields){
 				if(user.length == 0){
 					return res.status(400).send({status:400,message:"Topup Gagal"});
 				}else{
@@ -146,7 +146,7 @@ app.put("/editReview",async function(req,res){
     const review_id  = req.body.review_id;
     const api_key = req.body.api_key;
 
-    con.query(`select * from user where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
+    con.query(`select * from users where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
         if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can edit review"});
         else{
             con.query("update review set review = ? where review_id=?",[editreview,review_id],function(err,rows,fields){

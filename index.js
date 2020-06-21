@@ -12,5 +12,5 @@ app.use("/api",raka);
 app.use("/api",aris);
 
 app.listen(process.env.PORT || 5000,function(){
-    console.log("Listening to port 3000");
+    console.log("Listening to port " + process.env.PORT);
 })

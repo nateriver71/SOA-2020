@@ -8,7 +8,7 @@ const app = express.Router();
 
 app.use(express.urlencoded({extended:true}));
 
-const pool = new Client({
+const client = new Client({
     host:"ec2-34-202-88-122.compute-1.amazonaws.com",
     database:"d5vc5jk8caet1t",
     user:"npvvwqlheuzuub",
@@ -29,27 +29,6 @@ let storage = multer.diskStorage({
 
 let uploads = multer({storage: storage});
 
-function getConnection(){
-    return new Promise((resolve,reject)=>{
-        pool.getConnection((err,conn)=>{
-            if(err){
-                reject(err);
-            }else{
-                resolve(conn);
-            }
-        });
-    });
-    
-}
-function executeQuery(conn, query){
-    return new Promise((resolve,reject)=>{
-        conn.query(query,(err,result)=>{
-            if(err){ reject(err);}
-            else {resolve(result);}
-        });
-    });
-}
-
 app.post("/registerUser",async function(req,res){
     var email_user = req.body.email_user;
     var username_user=req.body.username_user;
@@ -58,11 +37,14 @@ app.post("/registerUser",async function(req,res){
     if(email_user==""||email_user==undefined||username_user==""||username_user==undefined||password_user==""){
         return res.status(400).send("Ada Field Kosong")
     }else{
-        let query = `insert into user values('${email_user}','${username_user}','${password_user}','${api_key}',15)`;
-        let conn = await getConnection();
-        const regis = await executeQuery(conn,query);
-        if(regis.length <= 0) return res.status(400).send("Email Kembar");
-        return res.status(200).send({status:200,message:"Registrasi Berhasil"});
+        let query = `insert into users values('${email_user}','${username_user}','${password_user}','${api_key}',15)`;
+        client.query(query, (err, res) => {
+            if (err) {
+                return res.status(400).send("Email Kembar");
+            } else {
+                res.status(200).send({status:200,message:"Registrasi Berhasil"});
+            }
+          })
         // pool.query("INSERT INTO USER VALUES(?,?,?)",[email_user,username_user,password_user],function(error,result){
         //     if(error ) res.status(500).send(error);
         //     else{
@@ -82,7 +64,7 @@ app.post("/loginUser",async function(req,res){
         res.status(200).send({status:200,message:"Login Sebagai ADMIN key anda 000000000"});
     }
     else{
-        let query = `select * from user where email_user='${email_user}' and password_user ='${password_user}'`;
+        let query = `select * from users where email_user='${email_user}' and password_user ='${password_user}'`;
         let conn = await getConnection();
         const user = await executeQuery(conn,query);
         if(user.length == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
@@ -107,11 +89,11 @@ app.post("/loginUser",async function(req,res){
 app.post("/editImageProfile",uploads.single('gambar_profile'),async function(req,res){
     let api_key = req.body.api_key;
     let imageprofile = req.file.filename;
-    let query = `select * from user where key_user='${api_key}'`;
+    let query = `select * from users where key_user='${api_key}'`;
     let conn = await getConnection();
     const login = await executeQuery(conn,query);
     if(login.length == 0) return res.status(400).send({status:400,message:"Wrong email or Pass"});
-    query = `update user set profil_picture='${imageprofile}'`;
+    query = `update users set profil_picture='${imageprofile}'`;
     const ganti = await executeQuery(conn,query);
     if(ganti.affectedrows == 0) return res.status(400).send({status:400,message:"Couldn't change profile picture"});
     return res.status(200).send({status:200,message:"Success change profile picture"});
@@ -135,7 +117,7 @@ app.post("/topup", async function(req,res){
 app.post("/deleteUser", async function(req,res){
     let api_key = req.body.api_key;
     let email_user = req.body.email_user;
-    let query = `delete from user where key_user = '${api_key}' and email_user = '${email_user}'`;
+    let query = `delete from users where key_user = '${api_key}' and email_user = '${email_user}'`;
     let conn = await getConnection();
     const del = await executeQuery(conn,query);
     if(del.affectedrows == 0) res.status(400).send({status:400,message:"Delete user fail"});
@@ -147,7 +129,7 @@ app.post("/deleteUserReview", async function(req,res){
     let password_user = req.body.password_user;
     let review_id = req.body.review_id;
     let conn = await getConnection();
-    let query = `select * from user where email_user = '${email_user}' and password_user = ${password_user}`;
+    let query = `select * from users where email_user = '${email_user}' and password_user = ${password_user}`;
     const login = await executeQuery(conn,query);
     if(login.length <= 0) return res.status(400).send({status:400,message:"Wrong email and password"});
     query = `delete from review where review_id = ${review_id} and email_user = '${email_user}'`;
@@ -161,7 +143,7 @@ app.post("/deleteUserComment", async function(req,res){
     let password_user = req.body.password_user;
     let review_id = req.body.review_id;
     let conn = await getConnection();
-    let query = `select * from user where email_user = '${email_user}' and password_user = ${password_user}`;
+    let query = `select * from users where email_user = '${email_user}' and password_user = ${password_user}`;
     const login = await executeQuery(conn,query);
     if(login.length <= 0) return res.status(400).send({status:400,message:"Wrong email and password"});
     query = `delete from rcomment where review_id = ${review_id} and email_user = '${email_user}'`;
