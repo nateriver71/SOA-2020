@@ -12,7 +12,7 @@ const con = new Client({
     user:"npvvwqlheuzuub",
     password:"f3d3b5049fadc5cf04c59a30502399e2b28c3e2affb9533b129ec150fb6a165a",
     port:"5432",
-    ssl: true
+    ssl: {rejectUnauthorized:false}
 })
 
 con.connect(err => {
