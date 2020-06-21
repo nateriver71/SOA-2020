@@ -37,6 +37,7 @@ app.post("/registerUser",async function(req,res){
     if(email_user==""||email_user==undefined||username_user==""||username_user==undefined||password_user==""){
         return res.status(400).send("Ada Field Kosong")
     }else{
+        client.connect()
         let query = `insert into users values('${email_user}','${username_user}','${password_user}','${api_key}',15)`;
         client.query(query, (err, res) => {
             if (err) {
@@ -45,6 +46,7 @@ app.post("/registerUser",async function(req,res){
                 res.status(200).send({status:200,message:"Registrasi Berhasil"});
             }
           })
+          client.end();
         // pool.query("INSERT INTO USER VALUES(?,?,?)",[email_user,username_user,password_user],function(error,result){
         //     if(error ) res.status(500).send(error);
         //     else{
