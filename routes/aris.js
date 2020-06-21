@@ -39,7 +39,7 @@ app.post("/registerUser",async function(req,res){
     }else{
         client.connect()
         let query = `insert into users values('$1','$2','$3','$4','',15)`;
-        let value = [email_user,username_user,password_user,key_user];
+        let value = [email_user,username_user,password_user,api_key];
         client.query(query,value, (err, result) => {
             if (err) {
                 return res.send(err);
