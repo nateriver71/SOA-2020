@@ -43,7 +43,7 @@ app.post("/registerUser",async function(req,res){
             const results = { 'results': (result) ? result.rows : null};
             res.send(JSON.stringify(results));
         } catch (error) {
-            
+            res.send(error);
         }
         // client.connect()
         // let query = `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit) values($1,$2,$3,$4,$5,$6)`;
