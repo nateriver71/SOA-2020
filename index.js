@@ -11,6 +11,6 @@ app.use(cors());
 app.use("/api",raka);
 app.use("/api",aris);
 
-app.listen(5000,function(){
+app.listen(process.env.PORT || 5000,function(){
     console.log("Listening to port 3000");
 })
