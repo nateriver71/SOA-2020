@@ -37,17 +37,25 @@ app.post("/registerUser",async function(req,res){
     if(email_user==""||email_user==undefined||username_user==""||username_user==undefined||password_user==""){
         return res.send("Ada Field Kosong")
     }else{
-        client.connect()
-        let query = `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit) values($1,$2,$3,$4,$5,$6)`;
-        let values = [email_user,username_user,password_user,api_key,'1',15];
-        client.query(query,values, (err, result) => {
-            if (err) {
-                return res.send("email Kembar");
-            } else {
-                res.send({status:200 ,message:"Registrasi Berhasil"});
-            }
-          })
-          client.end();
+        try {
+            const pool = await client.connect();
+            const result = await pool.query('select * from users');
+            const results = { 'results': (result) ? result.rows : null};
+            res.send(JSON.stringify(results));
+        } catch (error) {
+            
+        }
+        // client.connect()
+        // let query = `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit) values($1,$2,$3,$4,$5,$6)`;
+        // let values = [email_user,username_user,password_user,api_key,'1',15];
+        // client.query(query,values, (err, result) => {
+        //     if (err) {
+        //         return res.send("email Kembar");
+        //     } else {
+        //         res.send({status:200 ,message:"Registrasi Berhasil"});
+        //     }
+        //   })
+        //   client.end();
         // pool.query("INSERT INTO USER VALUES(?,?,?)",[email_user,username_user,password_user],function(error,result){
         //     if(error ) res.status(500).send(error);
         //     else{
