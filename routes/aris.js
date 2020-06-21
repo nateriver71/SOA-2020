@@ -1,17 +1,20 @@
 const express = require("express");
-const mysql = require("mysql");
+const { Client } = require("pg");
 const midtransClient = require('midtrans-client');
 var request = require("request");
+var multer = require("multer");
 var path = require('path');
 const app = express.Router();
 
 app.use(express.urlencoded({extended:true}));
 
-const pool = mysql.createPool({
-    host:"localhost",
-    database:"project_soa",
-    user:"root",
-    password:""
+const pool = new Client({
+    host:"ec2-34-202-88-122.compute-1.amazonaws.com",
+    database:"d5vc5jk8caet1t",
+    user:"npvvwqlheuzuub",
+    password:"f3d3b5049fadc5cf04c59a30502399e2b28c3e2affb9533b129ec150fb6a165a",
+    port:"5432",
+    ssl: true
 })
 
 const DIR = './uploads';
