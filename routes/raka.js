@@ -163,7 +163,7 @@ app.get("/getReview", async function(req,res){
         if(rows.length == 0){
             return res.status(404).send({status:404,message:"No review found"});
         } else{
-            return res.status(404).send(rows);
+            return res.status(200).send(rows);
         }
     });
 });
@@ -211,7 +211,7 @@ app.get("/getAnime", async function(req,res){
             animedata.push(rando.data[i].attributes.synopsis);
             animelist.push(animedata);
         }
-        res.send(animelist);
+        res.status(200).send(animelist);
     } catch (error) {
         res.send(error);
     }
@@ -225,7 +225,7 @@ app.get("/getCategories", async function(req,res){
         for (var i=0;i<10;i++){
             categorylist.push(rando.data[i].attributes.title);
         }
-        res.send(categorylist);
+        res.status(200).send(categorylist);
     } catch (error) {
         res.send(error);
     }
@@ -244,7 +244,7 @@ app.post("/searchAnime", async function(req,res){
             }
             
         }
-        res.send(animelist);
+        res.status(200).send(animelist);
     } catch(error){
         res.send(error);
     }

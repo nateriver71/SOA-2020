@@ -75,11 +75,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/registerUser",
+							"raw": "soa-2020-6576-6579/api/registerUser",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"registerUser"
@@ -148,11 +147,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/loginUser",
+							"raw": "soa-2020-6576-6579/api/loginUser",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"loginUser"
@@ -237,11 +235,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/addUserReview",
+							"raw": "soa-2020-6576-6579/api/addUserReview",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"addUserReview"
@@ -326,11 +323,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/addReviewComment",
+							"raw": "soa-2020-6576-6579/api/addReviewComment",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"addReviewComment"
@@ -415,11 +411,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/editReview",
+							"raw": "soa-2020-6576-6579/api/editReview",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"editReview"
@@ -496,11 +491,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/deleteUserReview",
+							"raw": "soa-2020-6576-6579/api/deleteUserReview",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"deleteUserReview"
@@ -577,11 +571,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/deleteUserComment",
+							"raw": "soa-2020-6576-6579/api/deleteUserComment",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"deleteUserComment"
@@ -642,11 +635,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/topup",
+							"raw": "soa-2020-6576-6579/api/topup",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"topup"
@@ -714,11 +706,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/searchAnime",
+							"raw": "soa-2020-6576-6579/api/searchAnime",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"searchAnime"
@@ -748,11 +739,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/getAnime",
+							"raw": "soa-2020-6576-6579/api/getAnime",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"getAnime"
@@ -782,11 +772,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/getCategories",
+							"raw": "soa-2020-6576-6579/api/getCategories",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"getCategories"
@@ -816,11 +805,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/getReview",
+							"raw": "soa-2020-6576-6579/api/getReview",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"getReview"
@@ -868,11 +856,10 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/success/:user",
+							"raw": "soa-2020-6576-6579/api/success/:user",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"success",
@@ -942,11 +929,10 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/editImageProfile",
+							"raw": "soa-2020-6576-6579/api/editImageProfile",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"editImageProfile"
@@ -1043,11 +1029,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/deleteUser",
+							"raw": "soa-2020-6576-6579/api/deleteUser",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"deleteUser"
