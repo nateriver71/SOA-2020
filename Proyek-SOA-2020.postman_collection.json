@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f8a3b6d5-b7b5-4fad-a713-7e0f872b0bd5",
+		"_postman_id": "b485d23b-78ed-4dee-8162-eacf84cd1fa8",
 		"name": "Proyek-SOA-2020",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,6 +10,44 @@
 			"item": [
 				{
 					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fc229bcd-a519-453c-a669-156183e05cf1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"username_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"password_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -37,20 +75,56 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/registerUser",
+							"raw": "soa-2020-6576-6579/api/registerUser",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"registerUser"
 							]
-						}
+						},
+						"description": "(POST) Endpoint untuk register user\r\n\r\nParameter body : \r\n- email_user (string)\r\n- username_user (string)\r\n- password_user (string)"
 					},
 					"response": []
 				},
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a65628d1-bfa2-4aa6-945b-884c3afd7e2e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"password_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -73,20 +147,62 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/loginUser",
+							"raw": "soa-2020-6576-6579/api/loginUser",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"loginUser"
 							]
-						}
+						},
+						"description": "(POST) Endpoint untuk login user\r\n\r\nParameter body : \r\n- email_user (string)\r\n- password_user (string)"
 					},
 					"response": []
 				},
 				{
 					"name": "AddUserReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c006c86c-b060-4eb0-87b7-b441572c5560",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"review\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"anime_id\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            },\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"api_key\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -119,20 +235,62 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/addUserReview",
+							"raw": "soa-2020-6576-6579/api/addUserReview",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"addUserReview"
 							]
-						}
+						},
+						"description": "(POST) Endpoint untuk menambahkan user review\r\n\r\nParameter body :\r\n- review (string)\r\n- anime_id (int)\r\n- email_user (string)\r\n- api_key (int)\r\n"
 					},
 					"response": []
 				},
 				{
 					"name": "AddUserComment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b9b055bd-38c3-4823-9ea3-7cb4e31d45f4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"review_id\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            },\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"comment\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"api_key\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -165,20 +323,62 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/addReviewComment",
+							"raw": "soa-2020-6576-6579/api/addReviewComment",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"addReviewComment"
 							]
-						}
+						},
+						"description": "Endpoint untuk menambahkan user comment\r\nParameter body :\r\n- review_id (int)\r\n- email_user (string)\r\n- comment (text)\r\n- api_key (int)"
 					},
 					"response": []
 				},
 				{
 					"name": "EditUserReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "35c73ae1-71c6-4cd4-94d7-1c222d650758",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"review\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"review_id\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            },\r",
+									"            \"api_key\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -211,20 +411,59 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/editReview",
+							"raw": "soa-2020-6576-6579/api/editReview",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"editReview"
 							]
-						}
+						},
+						"description": "(PUT) Untuk mengedit review user\r\nParameter body : \r\n- review (text)\r\n- email_user (string)\r\n- review_id (int)\r\n- api_key (int)"
 					},
 					"response": []
 				},
 				{
 					"name": "DeleteUserReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b54b60ec-5f1c-4d8a-bb71-02fb6aadac5c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"password_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"review_id\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -252,20 +491,59 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/deleteUserReview",
+							"raw": "soa-2020-6576-6579/api/deleteUserReview",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"deleteUserReview"
 							]
-						}
+						},
+						"description": "(POST) Endpoint untuk delete user review\r\n\r\nParameter body : \r\n- email_user (string)\r\n- password_user (string)\r\n- review_id (int)"
 					},
 					"response": []
 				},
 				{
 					"name": "DeleteUserComment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69473992-8941-43e4-9435-4327ba377e88",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"password_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            },\r",
+									"            \"review_id\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -293,20 +571,53 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/deleteUserComment",
+							"raw": "soa-2020-6576-6579/api/deleteUserComment",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"deleteUserComment"
 							]
-						}
+						},
+						"description": "(POST) Endpoint untuk delete user comment\r\n\r\nParameter body : \r\n- email_user (string)\r\n- password_user (string)\r\n- review_id (int)"
 					},
 					"response": []
 				},
 				{
 					"name": "TopUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c916c697-de20-4d5e-8d44-f54f81f62653",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"key_user\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -324,12 +635,12 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/topup",
+							"raw": "soa-2020-6576-6579/api/topup",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"topup"
 							],
 							"query": [
@@ -339,12 +650,45 @@
 									"disabled": true
 								}
 							]
-						}
+						},
+						"description": "(POST) Endpoint untuk menambah API Hit key\r\n\r\nParameter body : \r\n- key_user (int)"
 					},
 					"response": []
 				},
 				{
 					"name": "SearchAnime",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05cc8977-b548-4bef-a2b8-66faf2638f57",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"anime\":{\r",
+									"                \"type\":\"string\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -362,62 +706,239 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/searchAnime",
+							"raw": "soa-2020-6576-6579/api/searchAnime",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"searchAnime"
 							]
-						}
+						},
+						"description": "(POST) Endpoint untuk pencarian anime\r\n\r\nParameter body : \r\n- anime (string)\r\n- email_user (string)\r\n- api_key (int)"
 					},
 					"response": []
 				},
 				{
 					"name": "GetAnime",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da9dadf8-8d4b-429b-b0e5-ca91a2c5e70e",
+								"exec": [
+									"pm.test(\"Berhasil GET Anime\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/getAnime",
+							"raw": "soa-2020-6576-6579/api/getAnime",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"getAnime"
 							]
-						}
+						},
+						"description": "(GET) Endpoint untuk mendapatkan list anime\r\n"
 					},
 					"response": []
 				},
 				{
 					"name": "GetCategories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9c27688-43f0-44f8-b7a0-53735e11a225",
+								"exec": [
+									"pm.test(\"Berhasil GET Categories\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/getCategories",
+							"raw": "soa-2020-6576-6579/api/getCategories",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"getCategories"
 							]
-						}
+						},
+						"description": "(GET) Endpoint untuk mendapatkan list kategori anime"
 					},
 					"response": []
 				},
 				{
 					"name": "GetReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4da22de0-9cc7-4fb2-8ef5-16569f7d976e",
+								"exec": [
+									"pm.test(\"Berhasil GET Review\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "soa-2020-6576-6579/api/getReview",
+							"host": [
+								"soa-2020-6576-6579"
+							],
+							"path": [
+								"api",
+								"getReview"
+							]
+						},
+						"description": "(GET) Endpoint untuk mendapatkan review dari anime\r\n\r\nParameter body : \r\n- anime_id (int)"
+					},
+					"response": []
+				},
+				{
+					"name": "PaymentSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2840e46c-cb10-4401-bb6b-4af78903c400",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "soa-2020-6576-6579/api/success/:user",
+							"host": [
+								"soa-2020-6576-6579"
+							],
+							"path": [
+								"api",
+								"success",
+								":user"
+							],
+							"variable": [
+								{
+									"key": "user",
+									"value": "arizz@gmail.com"
+								}
+							]
+						},
+						"description": "Endpoint untuk menambah api hit jika pembayaran sukses.\r\n\r\nParameter body yang digunakan : \r\n- user (string)"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Image Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "964033a0-6eb9-4472-a099-2b777e37e37d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"api_key\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "api_key",
+									"value": "718073079",
+									"type": "text"
+								},
+								{
+									"key": "filename",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "soa-2020-6576-6579/api/editImageProfile",
+							"host": [
+								"soa-2020-6576-6579"
+							],
+							"path": [
+								"api",
+								"editImageProfile"
+							]
+						},
+						"description": "Mengubah foto profil dari pengguna\r\n\r\nParameter body : \r\n- api_key (string)\r\n- filename (file)"
 					},
 					"response": []
 				}
@@ -426,7 +947,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9b6c9e05-78ca-4526-817c-246ce7fee65b",
+						"id": "c1119b3c-2bd3-419c-a30a-abbf9517c089",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -436,7 +957,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "90da5f6e-07e2-44a6-9b08-66a53ea1c68a",
+						"id": "3db393c1-6d9d-4e64-aff0-2f6d75ba4b9b",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -451,6 +972,41 @@
 			"item": [
 				{
 					"name": "DeleteUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7acd2203-4db7-48be-8d73-1aa8528bc828",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"items\": {\r",
+									"    \"type\": \"array\",\r",
+									"    \"items\":{\r",
+									"        \"type\":\"object\",\r",
+									"        \"properties\":{\r",
+									"            \"api_key\":{\r",
+									"                \"type\":\"integer\"\r",
+									"            },\r",
+									"            \"email_user\":{\r",
+									"                \"type\":\"string\"\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid', function() {\r",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -473,15 +1029,16 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/deleteUser",
+							"raw": "soa-2020-6576-6579/api/deleteUser",
 							"host": [
-								"localhost"
+								"soa-2020-6576-6579"
 							],
-							"port": "3000",
 							"path": [
+								"api",
 								"deleteUser"
 							]
-						}
+						},
+						"description": "(POST) Endpoint admin untuk delete user\r\n\r\nParameter body :\r\n- api_key (int)\r\n- email_user (string)"
 					},
 					"response": []
 				}

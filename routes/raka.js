@@ -168,7 +168,7 @@ app.get("/getReview", async function(req,res){
         if(rows.length == 0){
             return res.status(404).send({status:404,message:"No review found"});
         } else{
-            return res.status(404).send(rows);
+            return res.status(200).send(rows);
         }
     });
 });
@@ -209,7 +209,14 @@ function getCategories(){
 app.get("/getAnime", async function(req,res){
     try {
         const rando = JSON.parse(await getAnime());
-        res.send(rando.data);
+        var animelist = [];
+        for (var i=0;i<10;i++){
+            var animedata = [];
+            animedata.push(rando.data[i].attributes.titles.en);
+            animedata.push(rando.data[i].attributes.synopsis);
+            animelist.push(animedata);
+        }
+        res.status(200).send(animelist);
     } catch (error) {
         res.send(error);
     }
@@ -219,7 +226,11 @@ app.get("/getAnime", async function(req,res){
 app.get("/getCategories", async function(req,res){
     try {
         const rando = JSON.parse(await getCategories());
-        res.send(rando.data);
+        var categorylist = [];
+        for (var i=0;i<10;i++){
+            categorylist.push(rando.data[i].attributes.title);
+        }
+        res.status(200).send(categorylist);
     } catch (error) {
         res.send(error);
     }
@@ -238,7 +249,7 @@ app.post("/searchAnime", async function(req,res){
             }
             
         }
-        res.send(animelist);
+        res.status(200).send(animelist);
     } catch(error){
         res.send(error);
     }
