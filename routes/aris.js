@@ -43,9 +43,10 @@ app.post("/registerUser",async function(req,res){
                 `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
                 (err, res) => {
                   console.log(err, res);
-                  client.end();
+                  
                 }
               );
+              client.end();
         } catch (error) {
             res.send(error);
         }
