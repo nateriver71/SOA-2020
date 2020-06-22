@@ -21,7 +21,7 @@ pool.connect(err => {
     if (err) throw err;
 });
 
-const DIR = './uploads';
+const DIR = '/uploads/';
 let storage = multer.diskStorage({
     destination: (req,file,callback) => {
         callback(null,path.join(__dirname+DIR));
@@ -94,7 +94,7 @@ app.post("/editImageProfile",uploads.single('gambar_profile'),async function(req
           } else {
             pool.connect((err, client, done) => {
                 if (err) throw err
-                client.query('update users set profil_picture=$1', [imageprofile], (err, result) => {
+                client.query('update users set profil_picture=$1 where key_user = $2', [imageprofile,api_key], (err, result) => {
                   done()
                   if (err) {
                     console.log(err.stack)
