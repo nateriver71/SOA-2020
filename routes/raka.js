@@ -131,11 +131,12 @@ app.post("/success/:user", async function(req,res){
 		}else{
 			let api_hit = result.rows[0].api_hit + 10;
 			con.query(`update users set api_hit=$1 where email_user=$2`,[api_hit,user],function(err,result,fields){
-				if(result.rows[0].affectedRows == 0){
-					return res.status(400).send({status:400,message:"Topup Gagal"});
-				}else{
-					return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
-				}
+                return res.send(result.rows);
+                // if(result.rows[0].affectedRows == 0){
+				// 	return res.status(400).send({status:400,message:"Topup Gagal"});
+				// }else{
+				// 	return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
+				// }
 			});
 		}
 	});
