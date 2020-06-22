@@ -70,7 +70,7 @@ app.post("/loginUser",async function(req,res){
             (err,result) =>{
                 pool.end();
                 if(result.length == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
-                return res.status(200).send({status:200,message:user[0].key_user});
+                return res.status(200).send({status:200,message:result.rows[0].key_user});
             }
         } catch (error) {
             res.send(error);
