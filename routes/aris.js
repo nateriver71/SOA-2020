@@ -38,10 +38,14 @@ app.post("/registerUser",async function(req,res){
         return res.send("Ada Field Kosong")
     }else{
         try {
-            const pool = await client.connect();
-            const result = await pool.query(`insert into users(email_user,username,user,password_user,key_user,profil_picture,api_hit) values ('${email_user}','${username_user}','${password_user}','${api_key}','1',15)`);
-            const results = { 'results': (result) ? result.rows : null};
-            res.send(JSON.stringify(results));
+            client.connect();
+            client.query(
+                `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
+                (err, res) => {
+                  console.log(err, res);
+                  client.end();
+                }
+              );
         } catch (error) {
             res.send(error);
         }
