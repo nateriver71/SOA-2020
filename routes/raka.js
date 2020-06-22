@@ -204,7 +204,14 @@ function getCategories(){
 app.get("/getAnime", async function(req,res){
     try {
         const rando = JSON.parse(await getAnime());
-        res.send(rando.data);
+        var animelist = [];
+        for (var i=0;i<10;i++){
+            var animedata = [];
+            animedata.push(rando.data[i].attributes.titles.en);
+            animedata.push(rando.data[i].attributes.synopsis);
+            animelist.push(animedata);
+        }
+        res.send(animelist);
     } catch (error) {
         res.send(error);
     }
@@ -214,7 +221,11 @@ app.get("/getAnime", async function(req,res){
 app.get("/getCategories", async function(req,res){
     try {
         const rando = JSON.parse(await getCategories());
-        res.send(rando.data);
+        var categorylist = [];
+        for (var i=0;i<10;i++){
+            categorylist.push(rando.data[i].attributes.title);
+        }
+        res.send(categorylist);
     } catch (error) {
         res.send(error);
     }
