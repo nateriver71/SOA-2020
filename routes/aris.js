@@ -46,7 +46,6 @@ app.post("/registerUser",function(req,res){
             pool.query(
                 `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
                 (err, result) => {
-                pool.end();
                 return res.send("register Berhasil");
                 }
               );
@@ -68,7 +67,6 @@ app.post("/loginUser",async function(req,res){
             pool.connect();
             pool.query(`select * from users where email_user='${email_user}' and password_user ='${password_user}'`),
             (err,result) =>{
-                pool.end();
                 if(result.rows == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
                 return res.status(200).send({status:200,message:result.rows[0].key_user});
             }
