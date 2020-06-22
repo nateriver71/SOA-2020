@@ -59,7 +59,7 @@ app.post("/loginUser",function(req,res){
     let email_user = req.body.email_user;
     let password_user = req.body.password_user;
     if(email_user=="admin" && password_user=="admin"){
-        res.send({status:200,message:"Login Sebagai ADMIN key anda 000000000"});
+        return res.send({status:200,message:"Login Sebagai ADMIN key anda 000000000"});
     }
     else{
         try {
@@ -69,7 +69,7 @@ app.post("/loginUser",function(req,res){
                 return res.send({status:200,message:result.rows[0].key_user});
             }
         } catch (error) {
-            res.send(error);
+            return res.send(error);
         }
         // pool.getConnection(function(err,conn){
         //     if(err) res.status(500).send(err);
