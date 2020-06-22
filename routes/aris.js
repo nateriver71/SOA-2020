@@ -46,7 +46,6 @@ app.post("/registerUser",function(req,res){
             pool.query(
                 `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
                 (err, result) => {
-                pool.release();
                 return res.send("register Berhasil");
                 }
               );
@@ -65,12 +64,17 @@ app.post("/loginUser",function(req,res){
     }
     else{
         try {
-            pool.connect();
-            pool.query(`select * from users where email_user='${email_user}' and password_user ='${password_user}'`),
-            (err,result) =>{
-                pool.release();
-                return res.send("login sukses");
-            }
+            pool.connect((err, client, done) => {
+                if (err) throw err
+                client.query('SELECT * FROM users WHERE email_user = $1', [email_user], (err, res) => {
+                  done()
+                  if (err) {
+                    console.log(err.stack)
+                  } else {
+                    console.log(res.rows[0])
+                  }
+                })
+              })
         } catch (error) {
             return res.send(error);
         }
