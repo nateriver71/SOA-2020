@@ -101,7 +101,7 @@ app.get("/topup/:key_user", async function(req,res){
 			});
 			let parameter = {
 				"transaction_details": {
-					"order_id": result.rows[0].email_user,
+					"order_id": result.rows[0].email_user+Math.round((new Date()).getTime()/1000),
 					"gross_amount": 10000
 				}, "credit_card":{
 					"secure" : true
