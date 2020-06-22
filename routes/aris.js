@@ -168,7 +168,9 @@ app.post("/deleteUserComment", async function(req,res){
     let email_user = req.body.email_user;
     let password_user = req.body.password_user;
     let review_id = req.body.review_id;
-    client.query('SELECT * FROM users WHERE email_user = $1 and password_user = $2', [email_user,password_user], (err, result) => {
+    pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query('SELECT * FROM users WHERE email_user = $1 and password_user = $2', [email_user,password_user], (err, result) => {
         done()
         if (err) {
           console.log(err.stack)
@@ -186,6 +188,7 @@ app.post("/deleteUserComment", async function(req,res){
             })
         }
       })
+    })
     // let conn = await getConnection();
     // let query = `select * from users where email_user = '${email_user}' and password_user = ${password_user}`;
     // const login = await executeQuery(conn,query);
