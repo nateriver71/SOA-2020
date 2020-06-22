@@ -61,17 +61,17 @@ app.post("/addReviewComment",async function(req,res){
     const comment = req.body.comment;
     const api_key = req.body.api_key;
 
-    con.query(`select * from users where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
-        if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add comments"});
+    con.query(`select * from users where email_user=$1 and key_user =$2`,[email_user,api_key],function(err,result,fields){
+        if(result.rows == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add comments"});
         else{
-            if(rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
-            let api_hit = rows[0].api_hit - 1;
+            if(result.rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
+            let api_hit = result.rows[0].api_hit - 1;
             con.query(`update users set api_hit=${api_hit}`,function(err,rows,fields){
                 if(err){
                     console.error(err);
                 }
             })
-            con.query(`insert into rcomment values(?,?,?,'1')`,[review_id,email_user,comment],function(err,rows,fields){
+            con.query(`insert into rcomment values($1,$2,$3,'1')`,[review_id,email_user,comment],function(err,rows,fields){
                 if (err) {
                     console.error(err);
                 } else {
@@ -85,8 +85,8 @@ app.post("/addReviewComment",async function(req,res){
 //Topup
 app.post("/topup", async function(req,res){
 	let key_user = req.body.key_user;
-	con.query("select * from users where key_user= ?",[key_user],function(err,rows,fields){
-		if(user.length == 0) {
+	con.query("select * from users where key_user= $1",[key_user],function(err,result,fields){
+		if(result.rows == 0) {
 			return res.status(400).send({
 				status:400,
 				message:"Email Atau Password Salah"
@@ -99,7 +99,7 @@ app.post("/topup", async function(req,res){
 			});
 			let parameter = {
 				"transaction_details": {
-					"order_id": rows[0].email_user,
+					"order_id": result.rows[0].email_user,
 					"gross_amount": 10000
 				}, "credit_card":{
 					"secure" : true
@@ -111,7 +111,7 @@ app.post("/topup", async function(req,res){
 				res.render('simple_checkout',{
 					token: transactionToken, 
 					clientKey: snap.apiConfig.clientKey,
-					user: rows[0].email_user
+					user: result.rows[0].email_user
 				})
 			})
 		}
@@ -120,16 +120,16 @@ app.post("/topup", async function(req,res){
 
 app.post("/success/:user", async function(req,res){
 	const user = req.params.user;
-	con.query("select * from users where email_user= ?",[user],function(err,rows,fields){
-		if(user.length == 0) {
+	con.query("select * from users where email_user= $1",[user],function(err,result,fields){
+		if(result.rows == 0) {
 			return res.status(400).send({
 				status:400,
 				message:"Email Atau Password Salah"
 			});
 		}else{
-			let api_hit = rows[0].api_hit + 10;
-			con.query(`update users set api_hit=? where email_user=?`,[api_hit,user],function(err,rows,fields){
-				if(user.length == 0){
+			let api_hit = result.rows[0].api_hit + 10;
+			con.query(`update users set api_hit=$1 where email_user=$2`,[api_hit,user],function(err,result,fields){
+				if(result.rows == 0){
 					return res.status(400).send({status:400,message:"Topup Gagal"});
 				}else{
 					return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
@@ -146,8 +146,8 @@ app.put("/editReview",async function(req,res){
     const review_id  = req.body.review_id;
     const api_key = req.body.api_key;
 
-    con.query(`select * from users where email_user=? and key_user =?`,[email_user,api_key],function(err,rows,fields){
-        if(rows.length == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can edit review"});
+    con.query(`select * from users where email_user=? and key_user =?`,[email_user,api_key],function(err,result,fields){
+        if(result.rows == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can edit review"});
         else{
             con.query("update review set review = ? where review_id=?",[editreview,review_id],function(err,rows,fields){
                 if (err) {
@@ -164,11 +164,11 @@ app.put("/editReview",async function(req,res){
 app.get("/getReview", async function(req,res){
     const anime_id = req.body.anime_id;
 
-    con.query("select * from review where anime_id = ? and status = 1",[anime_id],function(err,rows,fields){
-        if(rows.length == 0){
+    con.query("select * from review where anime_id = ? and status = 1",[anime_id],function(err,result,fields){
+        if(result.rows == 0){
             return res.status(404).send({status:404,message:"No review found"});
         } else{
-            return res.status(200).send(rows);
+            return res.status(200).send(result.rows);
         }
     });
 });
