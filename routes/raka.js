@@ -6,7 +6,6 @@ var multer = require("multer");
 var path = require('path');
 const app = express.Router();
 
-app.set('views','views');
 app.set('view engine', 'ejs');
 
 const con = new Client({
