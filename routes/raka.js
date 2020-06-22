@@ -27,31 +27,30 @@ app.post("/addUserReview", async function(req,res){
     const api_key = req.body.api_key;
 
     con.query(`select * from users where email_user=$1 and key_user =$2`,[email_user,api_key],function(err,result){
-        res.send(result.rows);
-        // if(result.rows == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add review"});
-        // else{
-        //     if(result.rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
-        //     let api_hit = result.rows[0].api_hit - 1;
-        //     con.query(`update users set api_hit=${api_hit}`,function(err,rows,fields){
-        //         if(err){
-        //             console.error(err);
-        //         }
-        //     })
-        //     con.query("select * from review",function(err,result,fields){
-        //         if (err) {
-        //             console.error(err);
-        //         } else {
-        //             var review_id = result.rows.length;    
-        //             con.query(`insert into review values(?,?,?,?,'0','1')`,[review_id,email_user,anime_id,review],function(err,rows,fields){
-        //                 if (err) {
-        //                     console.error(err);
-        //                 } else {
-        //                     res.status(200).send({status:200,message:"Status OK"});      
-        //                 }
-        //             });  
-        //         }
-        //     });
-        // }
+        if(result.rows == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can add review"});
+        else{
+            if(result.rows[0].api_hit <=0 ) return res.status(400).send({status:400,message:"Your api_hit empty please recharge first"});
+            let api_hit = result.rows[0].api_hit - 1;
+            con.query(`update users set api_hit=${api_hit}`,function(err,rows,fields){
+                if(err){
+                    console.error(err);
+                }
+            })
+            con.query("select * from review",function(err,result,fields){
+                if (err) {
+                    console.error(err);
+                } else {
+                    var review_id = result.rows.length;    
+                    con.query(`insert into review values($1,$2,$3,$4,'0','1')`,[review_id,email_user,anime_id,review],function(err,rows,fields){
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            res.status(200).send({status:200,message:"Status OK"});      
+                        }
+                    });  
+                }
+            });
+        }
     });
 });
 
