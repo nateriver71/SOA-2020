@@ -46,7 +46,7 @@ app.post("/registerUser",function(req,res){
             pool.query(
                 `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
                 (err, result) => {
-                return res.send("register Berhasil");
+                return res.status(200).send("register Berhasil");
                 }
               );
              
@@ -71,7 +71,7 @@ app.post("/loginUser",function(req,res){
                   if (err) {
                     console.log(err.stack)
                   } else {
-                    console.log(res.send("login berhasil" + result.rows[0].key_user))
+                    console.log(res.status(200).send("login berhasil" + result.rows[0].key_user))
                   }
                 })
               })
@@ -99,7 +99,7 @@ app.post("/editImageProfile",uploads.single('gambar_profile'),async function(req
                   if (err) {
                     console.log(err.stack)
                   } else {
-                    console.log(res.send("Berhasil mengganti foto"))
+                    console.log(res.status(200).send("Berhasil mengganti foto"))
                   }
                 })
               })
@@ -139,7 +139,7 @@ app.post("/deleteUser", async function(req,res){
         pool.query(
             `delete from users where email_user='${email_user}'`,
             (err, result) => {
-            return res.send("delete user berhasil");
+            return res.status(200).send("delete user berhasil");
             }
           );
     }
@@ -169,7 +169,7 @@ app.post("/deleteUserReview", async function(req,res){
                   if (err) {
                     console.log(err.stack)
                   } else {
-                    console.log(res.send("review berhasil dihapus"))
+                    console.log(res.status(200).send("review berhasil dihapus"))
                   }
                 })
               })
@@ -205,7 +205,7 @@ app.post("/deleteUserComment", async function(req,res){
                 if (err) {
                   console.log(err.stack)
                 } else {
-                  console.log(res.send("review comment berhasil dihapus"))
+                  console.log(res.status(200).send("review comment berhasil dihapus"))
                 }
               })
             })

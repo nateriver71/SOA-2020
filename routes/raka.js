@@ -6,6 +6,9 @@ var multer = require("multer");
 var path = require('path');
 const app = express.Router();
 
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 const con = new Client({
     host:"ec2-34-202-88-122.compute-1.amazonaws.com",
     database:"d5vc5jk8caet1t",
