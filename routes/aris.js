@@ -55,7 +55,7 @@ app.post("/registerUser",function(req,res){
     }    
 })
 
-app.post("/loginUser",async function(req,res){
+app.post("/loginUser",function(req,res){
     const email_user = req.body.email_user;
     const password_user = req.body.password_user;
     if(email_user=="admin" && password_user=="admin"){
@@ -63,11 +63,10 @@ app.post("/loginUser",async function(req,res){
     }
     else{
         try {
-            pool.query(`select * from users where email_user='${email_user}' and password_user ='${password_user}'`),
+            pool.query(`select * from users`),
             (err,result) =>{
-                return res.send("login berhasil");
-                // if(result.rows == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
-                // return res.status(200).send({status:200,message:result.rows[0].key_user});
+                if(result.rows == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
+                return res.status(200).send({status:200,message:result.rows[0].key_user});
             }
         } catch (error) {
             res.send(error);
