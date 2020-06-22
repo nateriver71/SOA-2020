@@ -56,17 +56,17 @@ app.post("/registerUser",function(req,res){
 })
 
 app.post("/loginUser",function(req,res){
-    const email_user = req.body.email_user;
-    const password_user = req.body.password_user;
+    let email_user = req.body.email_user;
+    let password_user = req.body.password_user;
     if(email_user=="admin" && password_user=="admin"){
-        res.status(200).send({status:200,message:"Login Sebagai ADMIN key anda 000000000"});
+        res.send({status:200,message:"Login Sebagai ADMIN key anda 000000000"});
     }
     else{
         try {
-            pool.query(`select * from users`),
+            pool.query(`select * from users where email_user='${email_user}' and password_user ='${password_user}'`),
             (err,result) =>{
-                if(result.rows == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
-                return res.status(200).send({status:200,message:result.rows[0].key_user});
+                if(result.rows == 0) return res.send({status:400,message:"Email Atau Password Salah"});
+                return res.send({status:200,message:result.rows[0].key_user});
             }
         } catch (error) {
             res.send(error);
