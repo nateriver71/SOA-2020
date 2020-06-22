@@ -67,8 +67,7 @@ app.post("/loginUser",function(req,res){
             pool.connect();
             pool.query(`select * from users where email_user='${email_user}' and password_user ='${password_user}'`),
             (err,result) =>{
-                if(result.rows == 0) return res.send({status:400,message:"Email Atau Password Salah"});
-                return res.send({status:200,message:result.rows[0].key_user});
+                res.send("login sukses");
             }
         } catch (error) {
             return res.send(error);
