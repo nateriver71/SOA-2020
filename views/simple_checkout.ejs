@@ -40,7 +40,7 @@
           onSuccess: function(result) {
             console.log("SUCCESS", result);
             alert("Payment accepted \r\n"+JSON.stringify(result));
-			window.location.replace("localhost:3000/api/success/"+user);
+			window.location.replace("https://soa-2020-6576-6579.herokuapp.com/api/success/"+user);
           },
           onPending: function(result) {
             console.log("Payment pending", result);

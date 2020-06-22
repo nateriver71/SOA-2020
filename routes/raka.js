@@ -167,7 +167,7 @@ app.get("/getReview", async function(req,res){
     const anime_id = req.body.anime_id;
 
     con.query("select * from review where anime_id = $1 and status = 1",[anime_id],function(err,result,fields){
-        if(result.rows == 0){
+        if(result == 0){
             return res.status(404).send({status:404,message:"No review found"});
         } else{
             return res.status(200).send({status:200,message:result.rows});
