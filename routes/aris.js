@@ -7,7 +7,7 @@ var path = require('path');
 const app = express.Router();
 
 app.use(express.urlencoded({extended:true}));
-
+app.use(express.static(path.join(__dirname,'public')));
 const pool = new Pool({
     host:"ec2-34-202-88-122.compute-1.amazonaws.com",
     database:"d5vc5jk8caet1t",
