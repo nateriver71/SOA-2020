@@ -17,6 +17,10 @@ const client = new Client({
     ssl: {rejectUnauthorized:false}
 })
 
+con.connect(err => {
+    if (err) throw err;
+});
+
 const DIR = './uploads';
 let storage = multer.diskStorage({
     destination: (req,file,callback) => {
