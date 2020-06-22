@@ -99,7 +99,7 @@ app.post("/editImageProfile",uploads.single('gambar_profile'),async function(req
                   if (err) {
                     console.log(err.stack)
                   } else {
-                    console.log(res.status(200).send("Berhasil mengganti foto"))
+                    console.log(res.status(200).send({status:200,message:"Berhasil mengganti foto"}))
                   }
                 })
               })
@@ -139,7 +139,7 @@ app.post("/deleteUser", async function(req,res){
         pool.query(
             `delete from users where email_user='${email_user}'`,
             (err, result) => {
-            return res.status(200).send("delete user berhasil");
+            return res.status(200).send({status:200,message:"berhasil menghapus user"});
             }
           );
     }
@@ -169,7 +169,7 @@ app.post("/deleteUserReview", async function(req,res){
                   if (err) {
                     console.log(err.stack)
                   } else {
-                    console.log(res.status(200).send("review berhasil dihapus"))
+                    console.log(res.status(200).send({status:200,message:"berhasil menghapus review"}))
                   }
                 })
               })
@@ -205,7 +205,7 @@ app.post("/deleteUserComment", async function(req,res){
                 if (err) {
                   console.log(err.stack)
                 } else {
-                  console.log(res.status(200).send("review comment berhasil dihapus"))
+                  console.log(res.status(200).send({status:200,message:"review comment berhasil dihapus"}))
                 }
               })
             })
