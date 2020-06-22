@@ -66,12 +66,12 @@ app.post("/loginUser",function(req,res){
         try {
             pool.connect((err, client, done) => {
                 if (err) throw err
-                client.query('SELECT * FROM users WHERE email_user = $1', [email_user], (err, res) => {
+                client.query('SELECT * FROM users WHERE email_user = $1', [email_user], (err, result) => {
                   done()
                   if (err) {
                     console.log(err.stack)
                   } else {
-                    console.log(res.rows[0])
+                    console.log(res.send("login berhasil" + result.rows[0].key_user))
                   }
                 })
               })
