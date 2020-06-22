@@ -85,7 +85,7 @@ app.post("/addReviewComment",async function(req,res){
 });
 
 //Topup
-app.post("/topup/:key_user", async function(req,res){
+app.get("/topup/:key_user", async function(req,res){
 	let key_user = req.params.key_user;
 	con.query("select * from users where key_user= $1",[key_user],function(err,result,fields){
 		if(result.rows == 0) {
