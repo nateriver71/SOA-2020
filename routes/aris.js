@@ -43,40 +43,13 @@ app.post("/registerUser",function(req,res){
     }else{
         try {
             pool.connect();
-            var queryString = `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`;
-            pool.query(queryString, (err, res) => {
-                if (err !== undefined) {
-                  // log the error to console
-                  console.log("Postgres INSERT error:", err);
-              
-                  // get the keys for the error
-                  var keys = Object.keys(err);
-                  console.log("\nkeys for Postgres error:", keys);
-              
-                  // get the error position of SQL string
-                  console.log("Postgres error position:", err.position);
+            pool.query(
+                `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
+                (err, res) => {
+                  console.log(err, res);
+                  pool.end();
                 }
-              
-                // check if the response is not 'undefined'
-                if (res !== undefined) {
-                  // log the response to console
-                  console.log("Postgres response:", res);
-              
-                  // get the keys for the response object
-                  var keys = Object.keys(res);
-              
-                  // log the response keys to console
-                  console.log("\nkeys type:", typeof keys);
-                  console.log("keys for Postgres response:", keys);
-              
-                  if (res.rowCount > 0) {
-                    console.log("# of records inserted:", res.rowCount);
-                  } else {
-                    console.log("No records were inserted.");
-                  }
-                }
-              });
-            
+              );
              
         } catch (error) {
             res.send(error);
