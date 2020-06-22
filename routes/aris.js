@@ -17,7 +17,7 @@ const client = new Client({
     ssl: {rejectUnauthorized:false}
 })
 
-con.connect(err => {
+client.connect(err => {
     if (err) throw err;
 });
 
