@@ -146,10 +146,10 @@ app.put("/editReview",async function(req,res){
     const review_id  = req.body.review_id;
     const api_key = req.body.api_key;
 
-    con.query(`select * from users where email_user=? and key_user =?`,[email_user,api_key],function(err,result,fields){
+    con.query(`select * from users where email_user=$1 and key_user =$2`,[email_user,api_key],function(err,result,fields){
         if(result.rows == 0) return res.status(403).send({status:403,message:"Error 403 : Forbidden, only member can edit review"});
         else{
-            con.query("update review set review = ? where review_id=?",[editreview,review_id],function(err,rows,fields){
+            con.query("update review set review = $1 where review_id=$2",[editreview,review_id],function(err,rows,fields){
                 if (err) {
                     console.error(err);
                 } else {
@@ -164,7 +164,7 @@ app.put("/editReview",async function(req,res){
 app.get("/getReview", async function(req,res){
     const anime_id = req.body.anime_id;
 
-    con.query("select * from review where anime_id = ? and status = 1",[anime_id],function(err,result,fields){
+    con.query("select * from review where anime_id = $1 and status = 1",[anime_id],function(err,result,fields){
         if(result.rows == 0){
             return res.status(404).send({status:404,message:"No review found"});
         } else{
