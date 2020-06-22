@@ -84,14 +84,37 @@ app.post("/loginUser",function(req,res){
 app.post("/editImageProfile",uploads.single('gambar_profile'),async function(req,res){
     let api_key = req.body.api_key;
     let imageprofile = req.file.filename;
-    let query = `select * from users where key_user='${api_key}'`;
-    let conn = await getConnection();
-    const login = await executeQuery(conn,query);
-    if(login.length == 0) return res.status(400).send({status:400,message:"Wrong email or Pass"});
-    query = `update users set profil_picture='${imageprofile}'`;
-    const ganti = await executeQuery(conn,query);
-    if(ganti.affectedrows == 0) return res.status(400).send({status:400,message:"Couldn't change profile picture"});
-    return res.status(200).send({status:200,message:"Success change profile picture"});
+
+    pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query('SELECT * FROM users WHERE key_user=$1', [api_key], (err, result) => {
+          done()
+          if (err) {
+            console.log(err.stack)
+          } else {
+            pool.connect((err, client, done) => {
+                if (err) throw err
+                client.query('update users set profil_picture=$1', [imageprofile], (err, result) => {
+                  done()
+                  if (err) {
+                    console.log(err.stack)
+                  } else {
+                    console.log(res.send("Berhasil mengganti foto"))
+                  }
+                })
+              })
+          }
+        })
+      })
+
+    // let query = `select * from users where key_user='${api_key}'`;
+    // let conn = await getConnection();
+    // const login = await executeQuery(conn,query);
+    // if(login.length == 0) return res.status(400).send({status:400,message:"Wrong email or Pass"});
+    // query = `update users set profil_picture='${imageprofile}'`;
+    // const ganti = await executeQuery(conn,query);
+    // if(ganti.affectedrows == 0) return res.status(400).send({status:400,message:"Couldn't change profile picture"});
+    // return res.status(200).send({status:200,message:"Success change profile picture"});
     
 });
 /*
