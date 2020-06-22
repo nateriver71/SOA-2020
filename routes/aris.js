@@ -33,7 +33,7 @@ let storage = multer.diskStorage({
 
 let uploads = multer({storage: storage});
 
-app.post("/registerUser",async function(req,res){
+app.post("/registerUser",function(req,res){
     var email_user = req.body.email_user;
     var username_user=req.body.username_user;
     var password_user=req.body.password_user;
