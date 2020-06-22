@@ -67,7 +67,7 @@ app.post("/loginUser",function(req,res){
             pool.connect();
             pool.query(`select * from users where email_user='${email_user}' and password_user ='${password_user}'`),
             (err,result) =>{
-                res.send("login sukses");
+                return res.send("login sukses");
             }
         } catch (error) {
             return res.send(error);
