@@ -46,7 +46,7 @@ app.post("/registerUser",function(req,res){
             pool.query(
                 `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
                 (err, result) => {
-                return res.status(200).send("register Berhasil");
+                return res.status(200).send({status:200,message:"Register Berhasil"});
                 }
               );
              
@@ -71,7 +71,7 @@ app.post("/loginUser",function(req,res){
                   if (err) {
                     console.log(err.stack)
                   } else {
-                    console.log(res.status(200).send("login berhasil" + result.rows[0].key_user))
+                    console.log(res.status(200).send({status:200,message:"login sukses "+result.rows[0].key_user}))
                   }
                 })
               })
