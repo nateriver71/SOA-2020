@@ -45,35 +45,15 @@ app.post("/registerUser",function(req,res){
             pool.connect();
             pool.query(
                 `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit)values('${email_user}','${username_user}','${password_user}','${api_key}','1','15')`,
-                (err, res) => {
-                  console.log(err, res);
-                  pool.end();
+                (err, ressult) => {
+                pool.end();
+                return res.send("register Berhasil");
                 }
               );
              
         } catch (error) {
             res.send(error);
         }
-        // client.connect()
-        // let query = `insert into users(email_user,username_user,password_user,key_user,profil_picture,api_hit) values($1,$2,$3,$4,$5,$6)`;
-        // let values = [email_user,username_user,password_user,api_key,'1',15];
-        // client.query(query,values, (err, result) => {
-        //     if (err) {
-        //         return res.send("email Kembar");
-        //     } else {
-        //         res.send({status:200 ,message:"Registrasi Berhasil"});
-        //     }
-        //   })
-        //   client.end();
-        // pool.query("INSERT INTO USER VALUES(?,?,?)",[email_user,username_user,password_user],function(error,result){
-        //     if(error ) res.status(500).send(error);
-        //     else{
-        //         if(result.length <=0){
-        //             return res.status(400).send("Email Kembar");
-        //         }
-        //         res.status(200).send("sukses");
-        //     }
-        // });
     }    
 })
 
@@ -84,11 +64,17 @@ app.post("/loginUser",async function(req,res){
         res.status(200).send({status:200,message:"Login Sebagai ADMIN key anda 000000000"});
     }
     else{
-        let query = `select * from users where email_user='${email_user}' and password_user ='${password_user}'`;
-        let conn = await getConnection();
-        const user = await executeQuery(conn,query);
-        if(user.length == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
-        return res.status(200).send({status:200,message:user[0].key_user})
+        try {
+            pool.connect();
+            pool.query(`select * from users where email_user='${email_user}' and password_user ='${password_user}'`),
+            (err,result) =>{
+                pool.end();
+                if(result.length == 0) return res.status(400).send({status:400,message:"Email Atau Password Salah"});
+                return res.status(200).send({status:200,message:user[0].key_user});
+            }
+        } catch (error) {
+            res.send(error);
+        }
         // pool.getConnection(function(err,conn){
         //     if(err) res.status(500).send(err);
         //     else{
