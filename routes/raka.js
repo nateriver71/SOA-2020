@@ -101,7 +101,7 @@ app.get("/topup/:key_user", async function(req,res){
 			});
 			let parameter = {
 				"transaction_details": {
-					"order_id": result.rows[0].email_user+Math.round((new Date()).getTime()/1000),
+					"order_id": result.rows[0].email_user,
 					"gross_amount": 10000
 				}, "credit_card":{
 					"secure" : true
@@ -120,8 +120,8 @@ app.get("/topup/:key_user", async function(req,res){
 	});
 })
 
-app.post("/success/:user", async function(req,res){
-	const user = req.params.user;
+app.post("/success", async function(req,res){
+	const user = req.body.order_id;
 	con.query("select * from users where email_user= $1",[user],function(err,result,fields){
 		if(result.rows == 0) {
 			return res.status(400).send({
