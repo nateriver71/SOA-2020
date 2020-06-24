@@ -122,7 +122,7 @@ app.get("/topup/:key_user", async function(req,res){
 
 app.post("/success", async function(req,res){
     const temp = req.body.order_id;
-    var user = temp.split("-");
+    var user = req.body.order_id;
 	con.query("select * from users where email_user= $1",[user],function(err,result,fields){
 		if(result.rows == 0) {
 			return res.status(400).send({
