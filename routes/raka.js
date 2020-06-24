@@ -101,7 +101,7 @@ app.get("/topup/:key_user", async function(req,res){
 			});
 			let parameter = {
 				"transaction_details": {
-					"order_id": result.rows[0].email_user,
+					"order_id": result.rows[0].email_user+"-"+Math.round((new Date()).getTime()/1000),
 					"gross_amount": 10000
 				}, "credit_card":{
 					"secure" : true
@@ -122,8 +122,8 @@ app.get("/topup/:key_user", async function(req,res){
 
 app.post("/success", async function(req,res){
     const temp = req.body.order_id;
-    var user = req.body.order_id;
-	con.query("select * from users where email_user= $1",[user],function(err,result,fields){
+    var user = temp.split("-");
+	con.query("select * from users where email_user= $1",[user[0]],function(err,result,fields){
 		if(result.rows == 0) {
 			return res.status(400).send({
 				status:400,
@@ -131,8 +131,8 @@ app.post("/success", async function(req,res){
 			});
 		}else{
 			let api_hit = result.rows[0].api_hit + 10;
-			con.query(`update users set api_hit=$1 where email_user=$2`,[api_hit,user],function(err,result,fields){
-                if(result == 0){
+			con.query(`update users set api_hit=$1 where email_user=$2`,[api_hit,user[0]],function(err,result,fields){
+                if(result.rows == 0){
 					return res.status(400).send({status:400,message:"Topup Gagal"});
 				}else{
 					return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
