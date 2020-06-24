@@ -121,25 +121,64 @@ app.get("/topup/:key_user", async function(req,res){
 })
 
 app.post("/success", async function(req,res){
-    const temp = req.body.order_id;
-    var user = temp.split("-");
-	con.query("select * from users where email_user= $1",[user[0]],function(err,result,fields){
-		if(result.rows == 0) {
-			return res.status(400).send({
-				status:400,
-				message:"Email Atau Password Salah"
-			});
-		}else{
-			let api_hit = result.rows[0].api_hit + 10;
-			con.query(`update users set api_hit=$1 where email_user=$2`,[api_hit,user[0]],function(err,result,fields){
-                if(result.rows == 0){
-					return res.status(400).send({status:400,message:"Topup Gagal"});
-				}else{
-					return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
-				}
-			});
-		}
-	});
+    console.log(`- Received check transaction status request:`,req.body);
+    let core = new midtransClient.Snap({
+        isProduction : false,
+        serverKey : 'SB-Mid-server-Jp5xMM57FoclHmWDItzXwXaV',
+        clientKey : 'SB-Mid-client-JUvzbHgzcPxluJEa'
+    });
+
+    core.transaction.status(req.body.transaction_id)
+    .then((transactionStatusObject)=>{
+      let orderId = transactionStatusObject.order_id;
+      let transactionStatus = transactionStatusObject.transaction_status;
+      let fraudStatus = transactionStatusObject.fraud_status;
+
+      let summary = `Transaction Result. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}.<br>Raw transaction status:<pre>${JSON.stringify(transactionStatusObject, null, 2)}</pre>`;
+
+      // [5.A] Handle transaction status on your backend
+      // Sample transactionStatus handling logic
+      if (transactionStatus == 'capture'){
+          if (fraudStatus == 'challenge'){
+              // TODO set transaction status on your databaase to 'challenge'
+          } else if (fraudStatus == 'accept'){
+              // TODO set transaction status on your databaase to 'success'
+            let user = orderId.split("-");
+	        con.query("select * from users where email_user= $1",[user[0]],function(err,result,fields){
+		        if(result.rows == 0) {
+			        return res.status(400).send({
+				        status:400,
+				        message:"Email Atau Password Salah"
+		    	    });
+		        }else{
+			        let api_hit = result.rows[0].api_hit + 10;
+			        con.query(`update users set api_hit=$1 where email_user=$2`,[api_hit,user[0]],function(err,result,fields){
+                        if(result.rows == 0){
+					        return res.status(400).send({status:400,message:"Topup Gagal"});
+				        }else{
+					        return res.status(200).send({status:200,message:"Topup Berhasil Dilakukan"});
+				        }
+			        });
+		        }
+	        });
+          }
+      } else if (transactionStatus == 'settlement'){
+        // TODO set transaction status on your databaase to 'success'
+        // Note: Non card transaction will become 'settlement' on payment success
+        // Credit card will also become 'settlement' D+1, which you can ignore
+        // because most of the time 'capture' is enough to be considered as success
+      } else if (transactionStatus == 'cancel' ||
+        transactionStatus == 'deny' ||
+        transactionStatus == 'expire'){
+        // TODO set transaction status on your databaase to 'failure'
+      } else if (transactionStatus == 'pending'){
+        // TODO set transaction status on your databaase to 'pending' / waiting payment
+      } else if (transactionStatus == 'refund'){
+        // TODO set transaction status on your databaase to 'refund'
+      }
+      console.log(summary);
+      res.send(JSON.stringify(transactionStatusObject, null, 2));
+    });
 })
 
 //Edit User Review
